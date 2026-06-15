@@ -183,15 +183,35 @@ function searchFallbackPlaces(query: string): Place | null {
 async function searchLocalPlaces(query: string): Promise<Place | null> {
   try {
     const supabase = createClient();
-    const { data, error } = await supabase
+    // 1) Try name or Tamil name fuzzy match
+    let res = await supabase
       .from("places")
       .select("id, name, name_ta, lat, lng, district, place_type, aliases")
-      .or(`name.ilike.%${query}%,aliases.cs.{${query.toLowerCase()}}`)
+      .or(`name.ilike.%${query}%,name_ta.ilike.%${query}%`)
       .limit(1);
 
-    if (error || !data || data.length === 0) return null;
+    // 2) If not found, try aliases array contains (exact alias)
+    if (!res.data || res.data.length === 0) {
+      const aliasQ = query.toLowerCase();
+      res = await supabase
+        .from("places")
+        .select("id, name, name_ta, lat, lng, district, place_type, aliases")
+        .filter("aliases", "cs", `{${aliasQ}}`)
+        .limit(1);
+    }
 
-    const row = data[0];
+    // 3) If still not found, try a loose text scan on aliases by using name ilike again
+    if (!res.data || res.data.length === 0) {
+      res = await supabase
+        .from("places")
+        .select("id, name, name_ta, lat, lng, district, place_type, aliases")
+        .ilike("name", `%${query}%`)
+        .limit(1);
+    }
+
+    if (res.error || !res.data || res.data.length === 0) return null;
+
+    const row = res.data[0];
     return {
       id: row.id,
       name: row.name,
@@ -292,6 +312,16 @@ function pickBestNominatimResult(results: any[]): any | null {
   const inSupportedRegion = results.filter((result) => isSupportedNominatimRegion(result));
   const candidates = inSupportedRegion.length ? inSupportedRegion : results.filter((result) => isInsideTamilNaduBounds(result));
   if (candidates.length === 0) return null;
+
+  // If the only candidate is a state-level administrative result (e.g. "Tamil Nadu"),
+  // return null so callers can try other attempts instead of resolving to the whole state.
+  if (
+    candidates.length === 1 &&
+    candidates[0].type === "administrative" &&
+    String(candidates[0].display_name ?? "").toLowerCase().includes("tamil nadu")
+  ) {
+    return null;
+  }
 
   return (
     candidates.find((result) => ["village", "hamlet", "locality", "suburb", "neighbourhood"].includes(result.type)) ??

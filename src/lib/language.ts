@@ -42,6 +42,12 @@ export const PLACE_ALIASES: Record<string, string> = {
   pallavaram: "Pallavaram",
   padappai: "Padappai",
   purisai: "Purisai",
+  pazhavanthangal: "Pazhavanthangal",
+  pazhavanthangai: "Pazhavanthangal",
+  pothery: "Potheri",
+  potheri: "Potheri",
+  velachery: "Velachery",
+  velacheryy: "Velachery",
 };
 
 /**

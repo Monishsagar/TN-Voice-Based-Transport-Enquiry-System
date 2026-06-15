@@ -108,7 +108,7 @@ export function isModeViable(mode: TransportMode, distanceKm: number): boolean {
     case "bus":
       return distanceKm <= 600;
     case "train":
-      return distanceKm >= 20; // trains rarely useful for very short hops
+        return distanceKm >= 8; // allow short suburban train hops (Chennai suburban) from ~8km
     default:
       return true;
   }

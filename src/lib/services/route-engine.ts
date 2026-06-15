@@ -51,6 +51,10 @@ const CHENNAI_SUBURBAN_SOUTH_STATIONS = new Set([
   "tambaram",
   "vandalur",
   "chengalpattu",
+  // common suburban stops often used in local searches
+  "pazhavanthangal",
+  "potheri",
+  "velachery",
 ]);
 
 export async function generateRouteOptions(
