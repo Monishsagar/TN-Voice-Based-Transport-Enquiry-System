@@ -1,0 +1,10 @@
+{
+  "name": "TN Transport Enquiry",
+  "short_name": "TN Transport",
+  "description": "Voice and text-based transport enquiry for all of Tamil Nadu.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0a0a14",
+  "theme_color": "#7c3aed",
+  "icons": []
+}

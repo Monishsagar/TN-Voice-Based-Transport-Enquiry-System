@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 30% 98%;
+    --foreground: 240 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 250 84% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 90% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 94%;
+    --muted-foreground: 240 5% 45%;
+    --accent: 280 80% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 15% 88%;
+    --input: 240 15% 88%;
+    --ring: 250 84% 60%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 240 25% 8%;
+    --foreground: 240 10% 95%;
+    --card: 240 20% 12%;
+    --card-foreground: 240 10% 95%;
+    --popover: 240 20% 12%;
+    --popover-foreground: 240 10% 95%;
+    --primary: 250 84% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 90% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 15% 18%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 280 80% 65%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 15% 22%;
+    --input: 240 15% 22%;
+    --ring: 250 84% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 10% 10%, hsl(250 84% 60% / 0.10), transparent 40%),
+      radial-gradient(circle at 90% 20%, hsl(190 90% 50% / 0.10), transparent 40%),
+      radial-gradient(circle at 50% 90%, hsl(280 80% 60% / 0.08), transparent 40%);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/30 dark:border-white/10 shadow-xl;
+  }
+  .glass-strong {
+    @apply bg-white/80 dark:bg-black/40 backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl;
+  }
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  }
+  .gradient-bg-animated {
+    background: linear-gradient(120deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
+    background-size: 200% 200%;
+    @apply animate-gradient-shift;
+  }
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  z-index: 0;
+}
