@@ -79,7 +79,7 @@ npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000`, register with a real email, verify it, then log in.
+Visit `http://localhost:3000`, register with a real email, verify it and then log in 
 
 ## Expanding Tamil Nadu Coverage
 
