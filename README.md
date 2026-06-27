@@ -28,7 +28,6 @@ A production-ready, full-stack Voice & Text Based Transport Enquiry System cover
 
 ## Project Structure
 
-```
 src/
   app/
     (auth)/login, register          - Auth pages
